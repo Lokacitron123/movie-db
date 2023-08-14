@@ -3,7 +3,7 @@ import { TextField, Paper, MenuItem, Grid, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { searchMovies } from "../redux/search";
 import Downshift from "downshift";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IMAGES_PATH, COVER_PLACEHOLDER } from "../config";
 import { styled } from "@mui/system";
 import { mapGenres } from "../library/helper";
@@ -49,6 +49,8 @@ const Suggestions = ({ movies, genres }) => {
     dispatch(searchMovies(event.target.value));
   };
 
+  const location = useLocation();
+
   return (
     <Downshift>
       {({
@@ -71,7 +73,7 @@ const Suggestions = ({ movies, genres }) => {
               }),
             }}
           />
-          {isOpen && movies && movies.results ? (
+          {isOpen && movies && movies.results && location.pathname === "/" ? (
             <PaperStyled square={true} {...getMenuProps()}>
               {movies.results
                 .slice(0, 10)
